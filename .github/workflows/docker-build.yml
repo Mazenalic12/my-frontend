@@ -1,0 +1,26 @@
+name: Build and Push to Artifact Registry
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t europe-west1-docker.pkg.dev/cs1-mzn-12345/frontend-repo/frontend-image:latest .
+          docker push europe-west1-docker.pkg.dev/cs1-mzn-12345/frontend-repo/frontend-image:latest
