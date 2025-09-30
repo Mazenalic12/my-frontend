@@ -28,6 +28,7 @@ jobs:
       run: |
         docker build -t europe-west1-docker.pkg.dev/cs1-mzn-12345/frontend-repo/vite-frontend:latest .
 
+
     - name: Push Docker image
       run: |
         docker push europe-west1-docker.pkg.dev/cs1-mzn-12345/frontend-repo/vite-frontend:latest
